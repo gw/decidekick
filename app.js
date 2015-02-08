@@ -25,6 +25,40 @@ var express = require('express'),
 // Bootstrap application settings
 require('./config/express')(app);
 
+
+var threeTapsKey = require('./config/threetaps.js');
+var threeTaps = require('3taps')({ 
+  apikey : threeTapsKey,
+  searchUrl: 'http://search.3taps.com', //Default is https, which was misconfigured
+  referenceUrl: 'http://reference.3taps.com'
+});
+
+
+//Reference - Get all localities in SF metro area
+//var referenceParams = {
+  //level: 'locality',
+  //metro: 'USA-SFO'
+//}
+//threeTaps.getLocations(referenceParams,
+    //function(err, data){
+      //data.locations.forEach(function(loc) {
+        //console.log(loc);
+      //})
+    //})
+
+//Search - Main search function
+var searchParams = {
+  'location.locality': 'USA-SFO-WEA', //TODO: Figure what to filter on here
+  'source': 'CRAIG',
+  'category': 'RHFR' //Real Estate, Housing For Rent
+};
+threeTaps.search(searchParams,
+    function(err, data) {
+      if (err) { console.log(err); }
+      console.log('data', data.postings);
+    });
+
+
 // if bluemix credentials exists, then override local
 var credentials;
 //Grab credentials from bluemix environment
