@@ -1,4 +1,4 @@
-# Tradeoff Analytics Java Starter Application
+# Tradeoff Analytics Node Starter Application
 
   The IBM Watson [Tradeoff Analytics][service_url] service helps you make
   better choices under multiple conflicting goals. The service combines smart
