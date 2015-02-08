@@ -26,11 +26,18 @@ var express = require('express'),
 require('./config/express')(app);
 
 // if bluemix credentials exists, then override local
-var credentials = extend({
-  url: '<url>',
-  username: '<username>',
-  password: '<password>'
-}, bluemix.getServiceCreds('tradeoff_analytics')); // VCAP_SERVICES
+var credentials;
+//Grab credentials from bluemix environment
+if (process.env.VCAP_SERVICES) {
+  credentials = extend({
+    url: '<url>',
+    username: '<username>',
+    password: '<password>'
+  }, bluemix.getServiceCreds('tradeoff_analytics')); // VCAP_SERVICES
+} else {
+  //Grab local credentials
+  credentials = require('./config/tradeoff-analytics');
+}
 
 // Create the service wrapper
 var tradeoffAnalytics = new TradeoffAnalytics(credentials);
